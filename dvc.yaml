@@ -1,0 +1,21 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - configs/config.yaml
+      - data/heart.csv
+    outs:
+      - data/processed_heart.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - configs/config.yaml
+      - data/processed_heart.csv
+    outs:
+      - models/heart_classifier.pkl
+    metrics:
+      - reports/metrics.json:
+          cache: false
