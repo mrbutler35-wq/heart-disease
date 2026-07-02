@@ -49,24 +49,52 @@ def run_drift_monitoring(threshold=0.30):
     
     # Print out specifically which individual features drifted
     print("\nIndividual Feature Breakdown:")
+    feature_status = {}
     for col_name in reference_df.columns:
         col_metric = ValueDrift(column=col_name)
         col_report = Report(metrics=[col_metric])
         col_report.run(reference_data=reference_df, current_data=production_df)
         # Check if drift exists by looking at the metric's result
         has_drift = col_metric.threshold is not None  # Simplified check
+        feature_status[col_name] = has_drift
         if has_drift:
             print(f"🔴 Feature '{col_name}' - monitoring active")
         else:
             print(f"🟢 Feature '{col_name}' remains stable.")
 
     # 5. Export interactive HTML Report Dashboard
-    # Note: save_html is not available in this version of Evidently
     os.makedirs("reports", exist_ok=True)
-    # report_html_path = "reports/data_drift_report.html"
-    # report_config.save_html(report_html_path)
-    # print(f"\nInteractive visual dashboard successfully saved to: {report_html_path}")
-    print("\nReport generation complete.")
+    report_html_path = "reports/data_drift_report.html"
+    try:
+        # Try to save HTML report using Evidently's built-in method
+        report_config.save_html(report_html_path)
+        print(f"\nInteractive visual dashboard successfully saved to: {report_html_path}")
+    except AttributeError:
+        # Fallback: Generate HTML report manually
+        html_content = f"""<html>
+<head><title>Data Drift Report</title><meta charset="UTF-8"></head>
+<body>
+    <h1>Data Drift Analysis Report</h1>
+    <p><strong>Total Features Analyzed:</strong> {total_features}</p>
+    <p><strong>Drifted Features Detected:</strong> {shifted_features}</p>
+    <p><strong>Drift Share:</strong> {actual_drift_share:.2%}</p>
+    <p><strong>Threshold:</strong> {threshold:.2%}</p>
+    <hr>
+    <h2>Feature Breakdown</h2>
+    <ul>
+"""
+        for col_name, drifted in feature_status.items():
+            status = "[DRIFTED]" if drifted else "[STABLE]"
+            html_content += f"        <li>{col_name}: {status}</li>\n"
+        
+        html_content += """    </ul>
+</body>
+</html>
+"""
+        with open(report_html_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"\nHTML report successfully saved to: {report_html_path}")
+    
     
     # 6. Hard Threshold Gateway Exit Implementation
     if actual_drift_share > threshold:
