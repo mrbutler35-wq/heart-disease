@@ -14,8 +14,8 @@ split:
 # 3. Model Training Hyperparameters
 train:
   model_type: "RandomForestClassifier"
-  estimators: 100
-  max_depth: 6
+  estimators: 50
+  max_depth: 8
   random_state: 42
 
 # 4. Pipeline Outputs & Evaluation Artifacts
