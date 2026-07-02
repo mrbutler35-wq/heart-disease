@@ -46,8 +46,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install mlflow scikit-learn pandas numpy pyyaml
 
-    - name: Execute Model Training
+    - name: Execute Data Preprocessing and Model Training
       run: |
+        # 1. Generates the missing data/processed_heart.csv file inside the container
+        python src/preprocess.py
+        
+        # 2. Runs the training pipeline and tracks hyperparameter metrics
         python src/train.py
 
     - name: Programmatic Performance Gate Verification
@@ -70,5 +74,4 @@ jobs:
             print('CRITICAL: Best model performance does not meet threshold!')
             exit(1)
         print('SUCCESS: Performance gateway checks cleared.')
-        "
         "
