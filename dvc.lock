@@ -5,8 +5,8 @@ stages:
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: a9ac899a0f7a28b5a0670dd68d4b1047
-      size: 590
+      md5: 057840f230b01dcd599470acd8cbaf04
+      size: 591
     - path: data/heart.csv
       hash: md5
       md5: 83a8160e172bb87d48ed15ff58883c02
@@ -25,8 +25,8 @@ stages:
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: a9ac899a0f7a28b5a0670dd68d4b1047
-      size: 590
+      md5: 057840f230b01dcd599470acd8cbaf04
+      size: 591
     - path: data/processed_heart.csv
       hash: md5
       md5: f61a420a32f9cb944c563a71984a2671
@@ -38,9 +38,9 @@ stages:
     outs:
     - path: models/heart_classifier.pkl
       hash: md5
-      md5: 22b2e55910df1a208707119e3794d7be
-      size: 508473
+      md5: b0c951c66f74cb18ae4f95a42343eab1
+      size: 1091673
     - path: reports/metrics.json
       hash: md5
-      md5: e3de27b01f044ee0bddbeb4c835629e3
-      size: 903
+      md5: 1ff9856b4ecf301a8a9d5f8905112285
+      size: 875
