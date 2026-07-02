@@ -1,0 +1,24 @@
+# configs/config.yaml
+
+# 1. Data Path Configurations
+data:
+  raw_path: "data/heart.csv"
+  processed_path: "data/processed_heart.csv"
+  target_col: "num"  # The column we want to predict (0 = no disease, 1-4 = disease)
+
+# 2. Data Splitting Parameters
+split:
+  test_size: 0.2
+  random_state: 42
+
+# 3. Model Training Hyperparameters
+train:
+  model_type: "RandomForestClassifier"
+  estimators: 100
+  max_depth: 6
+  random_state: 42
+
+# 4. Pipeline Outputs & Evaluation Artifacts
+artifacts:
+  model_path: "models/heart_classifier.pkl"
+  metrics_path: "reports/metrics.json"
